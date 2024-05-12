@@ -39,29 +39,25 @@
   width: max-content;
 }
 
-.category.travel {
+.items > .item:nth-child(1) > .textContainer > span {
   background-color: #ff7857;
 }
 
-.culture {
+.items > .item:nth-child(2) > .textContainer > span {
   background-color: #ffb14f;
 }
 
-.food {
+.items > .item:nth-child(3) > .textContainer > span {
   background-color: #7fb881;
 }
 
-.fashion {
-  background-color: #ff7887;
-}
-
-.coding {
+.items > .item:nth-child(4) > .textContainer > span {
   background-color: #775aec;
 }
 
-.style {
+/* .category:nth-child(1) {
   background-color: #789cff;
-}
+} */
 
 .postTitle {
   font-size: 18px;

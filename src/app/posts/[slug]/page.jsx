@@ -59,7 +59,9 @@ const SinglePage = async ({ params }) => {
         <div className={styles.post}>
          
           {(status === "unauthenticated")?(
-            <><div
+            <div
+            className={styles.blog}>
+            <div
             className={styles.description}
             dangerouslySetInnerHTML={{ __html: data?.desc.slice(0,700)+"..."}}
           />
@@ -67,7 +69,7 @@ const SinglePage = async ({ params }) => {
           Sign in with Google
           </div> */}
         <button onClick={()=>router.push("/login")}>Sign In</button>
-        </>
+        </div>
           ):(
             <div
             className={styles.description}

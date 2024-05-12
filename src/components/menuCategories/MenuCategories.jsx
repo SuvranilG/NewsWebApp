@@ -4,24 +4,31 @@ import styles from "./menuCategories.module.css";
 import { getCategoryData } from "../categoryList/CategoryList";
 
 const MenuCategories = async () => {
-  const fetchData=await getCategoryData();
+  const fetchedData=await getCategoryData();
   const randomNum=Math.random()*10;
-  const data=fetchData.slice(randomNum,randomNum+8)
+  let data;
+  try {
+    data=fetchedData.slice(randomNum,randomNum+9)
+    
+  } catch (error) {
+    data=fetchedData.slice(randomNum,randomNum-9)
+    
+  }
   // console.log(data);
   return (
     <div className={styles.categoryList}>
 
 
-      {/* {
+      {
         data?.map((item)=><Link
-        href="/blog?cat=style"
-        className={`${styles.categoryItem} ${styles.style}`}>
-        Style
+        href={`/blog?cat=${item.title}`}
+        className={`${styles.categoryItem}`}>
+        {`${item.title}`}
       </Link>)
-      } */}
+      }
 
 
-      <Link href="/blog" className={`${styles.categoryItem} ${styles.fashion}`}>
+      {/* <Link href="/blog" className={`${styles.categoryItem} ${styles.fashion}`}>
         Fashion
       </Link>
       <Link href="/blog" className={`${styles.categoryItem} ${styles.food}`}>
@@ -35,7 +42,7 @@ const MenuCategories = async () => {
       </Link>
       <Link href="/blog" className={`${styles.categoryItem} ${styles.coding}`}>
         Coding
-      </Link>
+      </Link> */}
     </div>
   );
 };
