@@ -3,30 +3,29 @@ import prisma from "@/utils/connect";
 import { NextResponse } from "next/server";
 
 export const GET = async (req) => {
-  const { searchParams } = new URL(req.url);
-  // const page = searchParams.get("page");
-  const cat = searchParams.get("cat");
 
-  const POST_PER_PAGE = 1;
-
-  const query = {
-    orderBy: [
-      {
-        createdAt: 'desc',
-      },],
-    take: POST_PER_PAGE,
-    where: {
-      ...(cat && { catSlug: cat }),
-    },
-
-  };  
+  const fetchedData=await prisma.category.findMany({});
+  const randomNum=Math.random()*10;
+  const data=[];
+  try {
+    fetchedData.slice(randomNum,randomNum+5)?.map((item)=>data.push(item.title))   
+  } catch (error) {
+    fetchedData.slice(randomNum,randomNum-5)?.map((item)=>data.push(item.title)) 
+  }
+  // console.log(data);
   
   try {
-    const [posts, count] = await prisma.$transaction([
-      prisma.post.findMany(query),
-      prisma.post.count({ where: query.where }),
-    ]);
-    return new NextResponse(JSON.stringify({ posts}, { status: 200 }));
+
+    const posts = await Promise.all(data.map(async (catSlug) => {
+      const post = await prisma.post.findFirst({
+        where: { catSlug },
+        orderBy: { createdAt: 'desc' },
+        select: { title: true, catSlug: true , createdAt:true, slug:true,img:true},
+      });
+      return post;
+    }));
+    const filteredData=posts.filter(item => item!=null)
+    return new NextResponse(JSON.stringify({posts:filteredData}, { status: 200 }));
   } catch (err) {
     console.log(err);
     return new NextResponse(

@@ -55,6 +55,18 @@
   background-color: #775aec;
 }
 
+.items > .item:nth-child(5) > .textContainer > span {
+  background-color: #a9b110;
+}
+
+.items > .item:nth-child(6) > .textContainer > span {
+  background-color: #ec5ac7;
+}
+
+.items > .item:nth-child(7) > .textContainer > span {
+  background-color: #ec5a5a;
+}
+
 /* .category:nth-child(1) {
   background-color: #789cff;
 } */

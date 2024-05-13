@@ -1,14 +1,15 @@
-"use client"
+// "use client"
 import Menu from "@/components/Menu/Menu";
 import styles from "./singlePage.module.css";
 import Image from "next/image";
 import Comments from "@/components/comments/Comments";
-import { useRouter } from "next/navigation";
-import { signIn,useSession } from "next-auth/react";
+// import { useRouter } from "next/navigation";
+// import { signIn,useSession } from "next-auth/react";
 import Link from "next/link";
+// import { useEffect } from "react";
 
 const getData = async (slug) => {
-  const res = await fetch(`http://localhost:3000/api/posts/${slug}`, {
+  const res = await fetch(process.env.NEXTAUTH_URL+`/api/posts/${slug}`, {
     cache: "no-store",
   });
 
@@ -20,12 +21,18 @@ const getData = async (slug) => {
 };
 
 
-const SinglePage = async ({ params }) => {
+const SinglePage =  async({ params }) => {
   const { slug } = params;
-  const { status } = useSession();
-  const router = useRouter();
+  // const { status } = useSession();
+  // const router = useRouter();
+  let data= await getData(slug);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     data = await getData(slug);
+  //   };
+  //   fetchData();
+  // },[])
 
-  const data = await getData(slug);
   return (
     <div className={styles.container}>
       <div className={styles.infoContainer}>
@@ -58,19 +65,21 @@ const SinglePage = async ({ params }) => {
       <div className={styles.content}>
         <div className={styles.post}>
          
-          {(status === "unauthenticated")?(
-            <div
-            className={styles.blog}>
-            <div
-            className={styles.description}
-            dangerouslySetInnerHTML={{ __html: data?.desc.slice(0,700)+"..."}}
-          />
-          {/* <div className={styles.socialButton} onClick={() => signIn("google")}>
-          Sign in with Google
-          </div> */}
-        <button onClick={()=>router.push("/login")}>Sign In</button>
-        </div>
-          ):(
+          {
+        //   (status === "unauthenticated")?(
+        //     <div
+        //     className={styles.blog}>
+        //     <div
+        //     className={styles.description}
+        //     dangerouslySetInnerHTML={{ __html: data?.desc.slice(0,700)+"..."}}
+        //   />
+        //   {/* <div className={styles.socialButton} onClick={() => signIn("google")}>
+        //   Sign in with Google
+        //   </div> */}
+        // <button onClick={()=>router.push("/login")}>Sign In</button>
+        // </div>
+        //   ):
+          (
             <div
             className={styles.description}
             dangerouslySetInnerHTML={{ __html: data?.desc}}

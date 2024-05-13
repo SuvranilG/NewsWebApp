@@ -21,6 +21,7 @@ const MenuCategories = async () => {
 
       {
         data?.map((item)=><Link
+        key={item.id}
         href={`/blog?cat=${item.title}`}
         className={`${styles.categoryItem}`}>
         {`${item.title}`}

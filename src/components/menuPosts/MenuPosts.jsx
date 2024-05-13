@@ -9,8 +9,8 @@ const MenuPosts =async ({ withImage,data}) => {
   return (
     <div className={styles.items}>
 {
-  data && data.posts.map((item) =>
-    <Link href={`/posts/${item.slug}`} className={styles.item} key={item.id}>
+  data && data.posts.map((item,i) =>
+    <Link href={`/posts/${item.slug}`} className={styles.item} key={i}>
         {withImage && (
           <div className={styles.imageContainer}>
             <Image src={item.img||'/p1.jpeg'} alt="" fill className={styles.image} />

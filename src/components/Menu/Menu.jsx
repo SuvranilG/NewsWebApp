@@ -8,7 +8,7 @@ import { getCategoryData } from "../categoryList/CategoryList";
 
 const getPopularData = async () => {
   const res = await fetch(
-    `http://localhost:3000/api/posts/popular?page=${1}}`,
+    process.env.NEXTAUTH_URL+`/api/posts/popular?page=${1}}`,
     {
       cache: "no-store",
     }
@@ -21,23 +21,37 @@ const getPopularData = async () => {
   return res.json();
 };
 
-  const categoryData = await getCategoryData();
-  console.log(categoryData);
+const getEditorData = async () => {
+  const res = await fetch(
+    process.env.NEXTAUTH_URL+`/api/posts/recent`,
+    {
+      cache: "no-store",
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Failed");
+  }
+
+  return res.json();
+};
 
 const Menu = async() => {
   const popularData = await getPopularData();
   // console.log(popularData);
+  const editorData = await getEditorData();
+
   return (
     <div className={styles.container}>
-      <h2 className={styles.subtitle}>{"What's hot"}</h2>
-      <h1 className={styles.title}>Most Popular</h1>
-      <MenuPosts withImage={true} data={popularData} />
+      <h2 className={styles.subtitle}>Chosen by the editor</h2>
+      <h1 className={styles.title}>Editors Pick</h1>
+      <MenuPosts withImage={true} data={editorData} />
       <h2 className={styles.subtitle}>Discover by topic</h2>
       <h1 className={styles.title}>Categories</h1>
       <MenuCategories />
-      <h2 className={styles.subtitle}>Chosen by the editor</h2>
-      <h1 className={styles.title}>Editors Pick</h1>
-      <MenuPosts withImage={true} />
+      <h2 className={styles.subtitle}>{"What's hot"}</h2>
+      <h1 className={styles.title}>Most Popular</h1>
+      <MenuPosts withImage={true} data={popularData}/>
     </div>
   );
 };
