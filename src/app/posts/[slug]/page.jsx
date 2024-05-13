@@ -9,7 +9,7 @@ import Link from "next/link";
 // import { useEffect } from "react";
 
 const getData = async (slug) => {
-  const res = await fetch(process.env.NEXTAUTH_URL+`/api/posts/${slug}`, {
+  const res = await fetch(process.env.NEXT_PUBLIC_NEXTAUTH_URL+`/api/posts/${slug}`, {
     cache: "no-store",
   });
 

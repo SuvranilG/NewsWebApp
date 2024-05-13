@@ -22,9 +22,9 @@ const fetcher = async (url) => {
 
 const Comments = ({ postSlug }) => {
   const { status } = useSession();
-
   const { data, mutate, isLoading } = useSWR(
-    process.env.NEXTAUTH_URL+`/comments?postSlug=${postSlug}`,
+    // `http://localhost:3000/api/comments?postSlug=${postSlug}`,
+    process.env.NEXT_PUBLIC_NEXTAUTH_URL+`/api/comments?postSlug=${postSlug}`,
     fetcher
   );
 
@@ -60,8 +60,8 @@ const Comments = ({ postSlug }) => {
       <div className={styles.comments}>
         {isLoading
           ? "loading"
-          : data?.map((item) => (
-              <div className={styles.comment} key={item._id}>
+          : data?.map((item,i) => (
+              <div className={styles.comment} key={i}>
                 <div className={styles.user}>
                   {item?.user?.image && (
                     <Image

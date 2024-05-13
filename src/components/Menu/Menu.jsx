@@ -8,7 +8,7 @@ import { getCategoryData } from "../categoryList/CategoryList";
 
 const getPopularData = async () => {
   const res = await fetch(
-    process.env.NEXTAUTH_URL+`/api/posts/popular?page=${1}}`,
+    process.env.NEXT_PUBLIC_NEXTAUTH_URL+`/api/posts/popular?page=${1}}`,
     {
       cache: "no-store",
     }
@@ -23,7 +23,7 @@ const getPopularData = async () => {
 
 const getEditorData = async () => {
   const res = await fetch(
-    process.env.NEXTAUTH_URL+`/api/posts/recent`,
+    process.env.NEXT_PUBLIC_NEXTAUTH_URL+`/api/posts/recent`,
     {
       cache: "no-store",
     }
