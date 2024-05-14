@@ -1,8 +1,7 @@
-"use client";
+"use client"
 import Image from "next/image";
 import styles from "./writePage.module.css";
 import { useEffect, useState } from "react";
-import "react-quill/dist/quill.bubble.css";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import {
@@ -12,9 +11,14 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import { app } from "@/utils/firebase";
-import ReactQuill from "react-quill";
 import { getCategoryData } from "@/components/categoryList/CategoryList";
 
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.bubble.css";
+// import ReactQuill from "react-quill";
+const ReactQuillNoSSR = dynamic(() => import("react-quill"), {
+  ssr: false,
+});
 const WritePage = () => {
   const { status,data } = useSession();
   const router = useRouter();
@@ -26,12 +30,14 @@ const WritePage = () => {
   const [title, setTitle] = useState("");
   const [catSlug, setCatSlug] = useState("");
   const [categoryData,setCategoryData] = useState();
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(()=>{
     const fetch=async()=>{
       setCategoryData(await getCategoryData());  
     }
     fetch();
+    setIsClient(true);
   },[])
 
   useEffect(() => {
@@ -129,7 +135,8 @@ const WritePage = () => {
         <option value="Politics">Politics</option>
         <option value="Tech">Tech</option> */}
 
-        {categoryData?.map((item)=>(
+        {
+        categoryData?.map((item)=>(
           <option key={item.id}value={item.title}>{item.title}</option>
         ))
         }
@@ -159,13 +166,13 @@ const WritePage = () => {
             </button> */}
           </div>
         )}
-        <ReactQuill
+        {isClient&&<ReactQuillNoSSR
           className={styles.textArea}
           theme="bubble"
           value={value}
           onChange={setValue}
           placeholder="Tell your story..."
-        />
+        />}
       </div>
       <button className={styles.publish} onClick={handleSubmit}>
         Publish
